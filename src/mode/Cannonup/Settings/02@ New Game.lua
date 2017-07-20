@@ -1,0 +1,11 @@
+	cannon = {
+		x = 0,
+		y = 0,
+		time = 3,
+		amount = 1,
+		speed = 20,
+	},
+	canMessage = false,
+	currentXml = -1,
+	toDespawn = {},
+	alivePlayers = {},
