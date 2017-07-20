@@ -1,0 +1,7 @@
+	sys = {0,1},
+	discrepancy = 0,
+	lights = {"15b52f8717d","15b52f8583a","15b52f88765"},
+	lightId = -1,
+	skip = 0,
+	rounds = 0,
+	possible = false,
