@@ -1,15 +1,23 @@
 -- Initially based on Jordynl19#Pokelua repository
 local modulePath = string.match(debug.getinfo(1).source:sub(2),"(.-\\)builder.lua")
 
-local files = io.popen("dir " .. modulePath.."src\\mode" .. " /b")
-files = files:read("*a")
+local update
+repeat
+	io.write("Update submodes before? (y/n): ")
+	update = io.read():lower()
+until update == "y" or update == "n"
 
-for file in files:gmatch("[^\n]+") do
-	os.execute("start ".. modulePath.."src\\mode\\"..file.."\\Debug\\combine.lua")
+if update == "y" then
+	local files = io.popen("dir " .. modulePath.."src\\mode" .. " /b")
+	files = files:read("*a")
+
+	for file in files:gmatch("[^\n]+") do
+		os.execute("start ".. modulePath.."src\\mode\\"..file.."\\Debug\\combine.lua")
+	end
+
+	io.write("Submodes updated!")
+	os.execute("ping localhost >nul -n 4")
 end
-
-io.write("Submodes updated!")
-os.execute("ping localhost >nul -n 4")
 
 menu = {
 	options = {
@@ -51,7 +59,7 @@ local fileLines = function(file)
 	end
 	return table.concat(lines,"\n")
 end
-getFile = function(file,d)
+local getFile = function(file,d)
 	local code
 	
 	local path = modulePath.."src"..(d and "\\mode\\"..file.."\\CURRENTVERSION_" or "\\")..file..".lua"
@@ -146,7 +154,7 @@ construct[3] = setmetatable({},{
 			repeat
 				io.write("Continue? (y/n): ")
 				answer = io.read():lower()
-			until answer == "y" or "n"
+			until answer == "y" or answer == "n"
 			
 			if answer == "n" then
 				files = false
