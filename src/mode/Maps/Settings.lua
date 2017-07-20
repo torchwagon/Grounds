@@ -1,0 +1,7 @@
+	autoRespawn = false,
+	category = -1,
+	mapInfo = {},
+	canInfo = false,
+	totalPlayers = 0,
+	skip = false,
+	images = {},
