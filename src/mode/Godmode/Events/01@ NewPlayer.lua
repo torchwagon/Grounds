@@ -16,8 +16,5 @@
 
 		tfm.exec.chatMessage("<ROSE>" .. system.getTranslation("welcome"),n)
 		
-		local id = tfm.exec.addImage("15ca3f4a200.png","&0",5,150,n)
-		system.newTimer(function()
-			tfm.exec.removeImage(id)
-		end,10000,false)
+		ui.banner("15ca3f4a200",5,150,n,10000)
 	end,
