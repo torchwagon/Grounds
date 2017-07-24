@@ -169,6 +169,18 @@ system.looping = function(f,tick)
 	return t
 end
 
+	-- Interface
+ui.banner = function(image,aX,aY,n,time)
+	time = time or 5
+	axis = axis or {100,100}
+	
+	local img = tfm.exec.addImage(image .. ".png","&0",aX,aY,n)
+	local timer = system.newTimer(function()
+		tfm.exec.removeImage(img)
+		system.removeTimer(timer)
+	end,time * 1000,false)
+end
+
 	-- Math
 math.isNegative = function(x,iN,iP)
 	return (x<0 and (iN or x) or (iP or x))
