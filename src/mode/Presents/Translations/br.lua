@@ -10,5 +10,5 @@
 			rival = "Rivais",
 			won = "venceu!",
 
-			profile = "Partidas <BL>: <V>%s\n<J>Presents <BL>: <V>%s\n\n<J>Vitórias <BL>: <V>%s",
+			profile = "Partidas <BL>: <V>%s\n<J>Presentes <BL>: <V>%s\n\n<J>Vitórias <BL>: <V>%s",
 		},

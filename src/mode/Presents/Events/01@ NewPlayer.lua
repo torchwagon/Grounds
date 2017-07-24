@@ -16,4 +16,6 @@
 		else
 			tfm.exec.respawnPlayer(n)
 		end
+		
+		ui.banner("15d75ac29b7",200,150,n)
 	end,

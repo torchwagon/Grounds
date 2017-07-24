@@ -1,4 +1,6 @@
 	victory = function(noone)
+		noone = noone or system.players() < 1
+		
 		if noone then
 			tfm.exec.chatMessage("<J>" .. system.getTranslation("nowinner"))
 			mode.presents.chooseTimer = 0
