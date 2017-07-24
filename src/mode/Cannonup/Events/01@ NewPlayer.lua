@@ -8,4 +8,6 @@
 		end
 		
 		tfm.exec.chatMessage("<J>" .. system.getTranslation("welcome"),n)
+		
+		ui.banner("15d60d944f5",140,135,n)
 	end,
