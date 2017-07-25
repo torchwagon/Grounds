@@ -4,7 +4,7 @@
 
 --[[ Module ]]--
 local module = {
-	_VERSION = "3.7",
+	_VERSION = "3.8",
 	_NAME = "grounds",
 	_STATUS = "semi-official",
 	_AUTHOR = "Bolodefchoco",
@@ -247,9 +247,8 @@ ui.banner = function(image,aX,aY,n,time)
 	axis = axis or {100,100}
 	
 	local img = tfm.exec.addImage(image .. ".png","&0",aX,aY,n)
-	local timer = system.newTimer(function()
+	system.newTimer(function()
 		tfm.exec.removeImage(img)
-		system.removeTimer(timer)
 	end,time * 1000,false)
 end
 
@@ -389,15 +388,6 @@ xml.getCoordinates = function(s)
 end
 
 --[[ GameMode ]]--
-system.normalizedModeName = function(name,back)
-	if back then
-		name = stringgsub(name,"%+","P") -- Test+ = TestP
-	else
-		name = stringgsub(name,"P$","+") -- TestP = Test+
-	end
-	return name
-end
-
 system.submodes = {}
 
 system.gameMode = module._NAME
@@ -406,7 +396,7 @@ system.modeChanged = os.time() + 10e3
 system.getGameMode = function(value,notFirst)
 	local found,submode = tablefind(system.submodes,stringlower(value),nil,stringlower)
 	if found then
-		system.gameMode = system.normalizedModeName(system.submodes[submode],true)
+		system.gameMode = system.submodes[submode]
 		
 		if notFirst then
 			eventModeChanged()
@@ -421,7 +411,7 @@ end
 mode = setmetatable({},{
 	__newindex = function(list,key,value)
 		rawset(list,key,value)
-		system.submodes[#system.submodes+1] = system.normalizedModeName(key,false)
+		system.submodes[#system.submodes+1] = key
 	end
 })
 
@@ -3058,6 +3048,41 @@ mode.jokenpo = {
 		end
 		
 		ui.setMapName("<PT>#Jokenpo   <G>|   <N>" .. system.getTranslation("round") .. " : <V>" .. mode.jokenpo.round .. mode.jokenpo.displayNames() .. "<")
+	end,
+	--[[ Init ]]--
+	reset = function()
+		-- Scores
+		mode.jokenpo.tie = 0
+		mode.jokenpo.round = 0
+		mode.jokenpo.roundsPerGame = 5
+		
+		-- Data
+		mode.jokenpo.players = {}
+		mode.jokenpo.playing = false
+		
+		-- Timers
+		mode.jokenpo.timer = 9.5
+		mode.jokenpo.partialTimer = 0
+	end,
+	init = function()
+		mode.jokenpo.translations.pt = mode.jokenpo.translations.br
+	
+		-- Sets the main language according to the community
+		if mode.jokenpo.translations[tfm.get.room.community] then
+			mode.jokenpo.langue = tfm.get.room.community
+		end
+		
+		-- Sets the rounds per game
+		mode.jokenpo.roundsPerGame = mathmax(5,system.miscAttrib)
+		
+		-- Init
+		for _,f in next,{"AutoShaman","AutoNewGame","PhysicalConsumables","AfkDeath"} do
+			tfm.exec["disable"..f]()
+		end
+		tfm.exec.setAutoMapFlipMode(false)
+		tfm.exec.setRoomMaxPlayers(20)
+
+		tfm.exec.newGame(tablerandom(mode.jokenpo.maps))
 	end,
 	--[[ Events ]]--
 	-- NewPlayer
@@ -6074,7 +6099,7 @@ events.eventChatCommand = function(n,c)
 		end
 	elseif c == "modes" then
 		tfm.exec.chatMessage(tableconcat(system.submodes,"\n",function(k,v)
-			return "#" .. system.normalizedModeName(v)
+			return "#" .. v
 		end),n)
 	elseif c == "admin" then
 		tfm.exec.chatMessage(tableconcat(system.roomAdmins,", ",tostring),n)
@@ -6105,7 +6130,7 @@ system.roomSettings = {
 	["*"] = function(name)
 		local game = system.getGameMode(name)
 		if not game then
-			system.gameMode = "grounds"
+			system.gameMode = module._NAME
 		end
 	end
 }
