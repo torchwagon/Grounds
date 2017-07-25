@@ -175,9 +175,8 @@ ui.banner = function(image,aX,aY,n,time)
 	axis = axis or {100,100}
 	
 	local img = tfm.exec.addImage(image .. ".png","&0",aX,aY,n)
-	local timer = system.newTimer(function()
+	system.newTimer(function()
 		tfm.exec.removeImage(img)
-		system.removeTimer(timer)
 	end,time * 1000,false)
 end
 

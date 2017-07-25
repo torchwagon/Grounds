@@ -36,7 +36,7 @@ events.eventChatCommand = function(n,c)
 		end
 	elseif c == "modes" then
 		tfm.exec.chatMessage(table.concat(system.submodes,"\n",function(k,v)
-			return "#" .. system.normalizedModeName(v)
+			return "#" .. v
 		end),n)
 	elseif c == "admin" then
 		tfm.exec.chatMessage(table.concat(system.roomAdmins,", ",tostring),n)

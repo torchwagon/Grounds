@@ -9,7 +9,7 @@ system.roomSettings = {
 	["*"] = function(name)
 		local game = system.getGameMode(name)
 		if not game then
-			system.gameMode = "grounds"
+			system.gameMode = module._NAME
 		end
 	end
 }
