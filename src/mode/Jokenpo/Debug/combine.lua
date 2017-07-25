@@ -9,6 +9,7 @@ tree = {
 	getFile("Win"),
 	getFile("Round"),
 	getFolder("Display"),
+	getFile("Init"),
 	getFolder("Events"),
 }
 
